@@ -191,7 +191,7 @@ router.get('/user_details/:seat_number', (req, res) => {
 })
 
 
-router.post('/reset', (req, res) => {
+router.post('/reset_tickets', (req, res) => {
 	console.log(req.body);
 	if(!("username" in req.body) || !("password" in req.body)) {
 		res.status(400).json({message : "Username and Password are required to access it!"});
@@ -225,7 +225,7 @@ router.post('/reset', (req, res) => {
 	}
 	else
 		res.status(400).json({message : "Username incorrect!!"});
-});
+})
 
 
 module.exports = router;
