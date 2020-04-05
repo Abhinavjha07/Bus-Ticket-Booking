@@ -191,7 +191,7 @@ router.get('/user_details/:seat_number', (req, res) => {
 })
 
 
-router.get('/admin', (req, res) => {
+router.post('/reset', (req, res) => {
 	if(!("username" in req.body) || !("password" in req.body)) {
 		res.status(400).json({message : "Username and Password are required to access it!"});
 	}
