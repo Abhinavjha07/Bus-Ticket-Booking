@@ -198,13 +198,14 @@ router.post('/reset', (req, res) => {
 
 	const username = req.body.username;
 	const password = req.body.password;
-	if(username == process.env.USER)
+	console.log(username, password);
+	if(username == process.env.USERNAME)
 	{
 		if(bcrypt.compareSync(password, process.env.PASSWORD)) {
 			Ticket.find({"is_open": false} , (err, tickets) => {
 				if(tickets) {
 					tickets.forEach(ticket => {
-						ticket.is_open = false;
+						ticket.is_open = true;
 						ticket.save((err, result) => {
 							if(err) res.status(400).json({message : "Failed to open ticket with seat_number : "+ticket.seat_number});
 							else console.log("Opening seat_number : "+ticket.seat_number);
