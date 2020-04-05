@@ -192,16 +192,18 @@ router.get('/user_details/:seat_number', (req, res) => {
 
 
 router.post('/reset', (req, res) => {
+	console.log(req.body);
 	if(!("username" in req.body) || !("password" in req.body)) {
 		res.status(400).json({message : "Username and Password are required to access it!"});
 	}
 
 	const username = req.body.username;
 	const password = req.body.password;
-	console.log(username, password);
+	console.log(username + " , "+password);
+	console.log(process.env.USERNAME);
 	if(username == process.env.USERNAME)
 	{
-		if(bcrypt.compareSync(password, process.env.PASSWORD)) {
+		if(bcrypt.compare(password, process.env.PASSWORD)) {
 			Ticket.find({"is_open": false} , (err, tickets) => {
 				if(tickets) {
 					tickets.forEach(ticket => {
