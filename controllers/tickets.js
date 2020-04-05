@@ -172,7 +172,7 @@ router.get('/user_details/:seat_number', (req, res) => {
 	Ticket.findOne({"seat_number" : seat_number}, (err, ticket) => {
 		if(err) res.status(400).json( { message: "Error occured in finding ticket with the given seat_number." } );
 		else {
-			console.log(ticket)
+
 			if(ticket) {
 				if(ticket.is_open == true)
 					res.status(200).json({message : "Seat is not booked yet!"});

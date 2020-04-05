@@ -19,7 +19,7 @@ mongoose.connection
         console.warn('Error in connecting to database', error);
     });
 
-app.listen(process.env.PORT,process.env.HOSTNAME, ()=> {
+app.listen(process.env.PORT, ()=> {
 	console.log('Server started a port: '+process.env.PORT);
 });
 
