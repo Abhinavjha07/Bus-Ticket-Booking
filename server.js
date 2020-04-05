@@ -10,7 +10,7 @@ app.use('/users', users);
 app.use('/tickets', ticket);
 
 mongoose.connect(
-    process.env.DB_CONNECT ,
+    process.env.DB_CONNECT || 'mongodb://localhost:27017/bus_reservation',
     { useNewUrlParser: true }
 )
 mongoose.connection
@@ -19,7 +19,7 @@ mongoose.connection
         console.warn('Error in connecting to database', error);
     });
 
-app.listen(process.env.PORT, ()=> {
+app.listen(process.env.PORT || 3000, ()=> {
 	console.log('Server started a port: '+process.env.PORT);
 });
 

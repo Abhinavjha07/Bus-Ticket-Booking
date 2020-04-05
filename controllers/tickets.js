@@ -33,15 +33,6 @@ router.get('/insert', (req, res) => {
 })
 
 
-function getIdFromUsername(username) {
-	User.findOne({ "username" : username }, (err, result) => {
-		if(result)
-			return result._id;
-		else
-			console.log(err);
-	})
-}
-
 router.get('/closed', (req, res) => {
 	Ticket.find({"is_open" : false }, (err, ticket) => {
 		if(!err) {
@@ -125,12 +116,12 @@ router.post('/:seat_number', (req, res) => {
 	const { seat_number } = req.params;
 	console.log(seat_number)
 	const payload = req.body;
+
 	var user = null;
 
 	if("username" in payload) {
-		user = getIdFromUsername(payload.username);
+		user = payload.username;
 	}
-
 	if(payload.is_open == true)
 	{
 		Ticket.findOne({ "seat_number": seat_number}, (err, ticket) => {
@@ -147,21 +138,34 @@ router.post('/:seat_number', (req, res) => {
 		})
 	}
 
-	else if(payload.is_open == false && user != null) {
+	else
+	{
 		Ticket.findOne({ "seat_number": seat_number}, (err, ticket) => {
 			if(err) res.status(404).json({ message: err});
 			if(ticket) {
-				if(ticket.user == null)
+				if(ticket.user === null)
 				{
-					ticket.is_open = false;
-					ticket.user = user;
-					ticket.save((err, ticket) => {
-					if(err) res.status(400).json({message : "Error occured"});
+					User.findOne({"username": user}, (err, user) => {
+						if(user)
+						{
+							ticket.is_open = false;
+							ticket.user = user._id;
+							ticket.save((err, ticket) => {
+							if(err) res.status(400).json({message : "Error occured"});
+							else
+								res.status(200).json({message : "Updated ticket status!!"});
+
+							});
+						}
+						else
+							res.status(200).json({message : "User doesn't exist !!"});
 				})
 				}
+				else
+					res.status(200).json({message : "Ticket is already booked!!"});
 
 			}
-		})
+		});
 
 	}
 })
@@ -191,23 +195,23 @@ router.get('/user_details/:seat_number', (req, res) => {
 })
 
 
-router.post('/reset_tickets', (req, res) => {
-	console.log(req.body);
-	if(!("username" in req.body) || !("password" in req.body)) {
+router.post('/admin/reset', (req, res) => {
+	if(!("username" in req.body) && !("password" in req.body)) {
 		res.status(400).json({message : "Username and Password are required to access it!"});
 	}
 
 	const username = req.body.username;
 	const password = req.body.password;
-	console.log(username + " , "+password);
+
 	console.log(process.env.USERNAME);
 	if(username == process.env.USERNAME)
 	{
 		if(bcrypt.compare(password, process.env.PASSWORD)) {
-			Ticket.find({"is_open": false} , (err, tickets) => {
+			Ticket.find({"is_open": "false"} , (err, tickets) => {
 				if(tickets) {
 					tickets.forEach(ticket => {
 						ticket.is_open = true;
+						ticket.user = null;
 						ticket.save((err, result) => {
 							if(err) res.status(400).json({message : "Failed to open ticket with seat_number : "+ticket.seat_number});
 							else console.log("Opening seat_number : "+ticket.seat_number);
