@@ -5,7 +5,6 @@ const users = require('./controllers/users');
 const ticket = require('./controllers/tickets');
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use('/users', users);
 app.use('/tickets', ticket);
@@ -20,7 +19,7 @@ mongoose.connection
         console.warn('Error in connecting to database', error);
     });
 
-app.listen(process.env.PORT , ()=> {
+app.listen(process.env.PORT,process.env.HOSTNAME, ()=> {
 	console.log('Server started a port: '+process.env.PORT);
 });
 

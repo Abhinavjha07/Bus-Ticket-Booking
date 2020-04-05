@@ -71,10 +71,10 @@ router.get('/open', (req, res) => {
 router.get('/status/:seat_number', (req, res) => {
 	const { seat_number }  = req.params
 	console.log(seat_number);
-	Ticket.find({"seat_number" : seat_number}, (err, ticket) => {
+	Ticket.findOne({"seat_number" : seat_number}, (err, ticket) => {
 		if(!err) {
 			if(ticket) {
-				res.status(200).json({ "Ticket status" : ticket.is_open});
+				res.status(200).json(ticket);
 			}
 			else {
 				res.status(200).json({message: "No such ticket exists."})
@@ -103,11 +103,11 @@ router.post('/booking', (req, res) => {
 				else {
 					ticket.is_open = false;
 					ticket.user = result._id;
-					ticket.save((err, res) => {
+					ticket.save((err, ans) => {
 						if(err) res.status(404).json({message : "Booking can't be done"});
 						else
 						{
-							res.status(200).json( { message : "Booking has been done!!" + ans } );
+							res.status(200).json( { message : "Booking has been done!!" + ans} );
 						}
 					})
 					
@@ -132,7 +132,7 @@ router.post('/:seat_number', (req, res) => {
 
 	if(payload.is_open == true)
 	{
-		Ticket.find({ "seat_number": seat_number}, (err, ticket) => {
+		Ticket.findOne({ "seat_number": seat_number}, (err, ticket) => {
 			if(err) res.status(404).json({ message: err});
 			if(ticket) {
 				ticket.is_open = true;
@@ -147,7 +147,7 @@ router.post('/:seat_number', (req, res) => {
 	}
 
 	else if(payload.is_open == false && user != null) {
-		Ticket.find({ "seat_number": seat_number}, (err, ticket) => {
+		Ticket.findOne({ "seat_number": seat_number}, (err, ticket) => {
 			if(err) res.status(404).json({ message: err});
 			if(ticket) {
 				if(ticket.user == null)
@@ -168,15 +168,15 @@ router.post('/:seat_number', (req, res) => {
 router.get('/user_details/:seat_number', (req, res) => {
 	const seat_number = req.params.seat_number;
 	console.log(seat_number)
-	Ticket.find({"seat_number" : seat_number}, (err, ticket) => {
+	Ticket.findOne({"seat_number" : seat_number}, (err, ticket) => {
 		if(err) res.status(400).json( { message: "Error occured in finding ticket with the given seat_number." } );
 		else {
 			console.log(ticket)
 			if(ticket) {
-				if(ticket[0].is_open == true)
+				if(ticket.is_open == true)
 					res.status(200).json({message : "Seat is not booked yet!"});
 				else {
-					var user_id = ticket[0].user;
+					var user_id = ticket.user;
 					console.log(user_id)
 					User.findOne({_id: user_id} , (err, user) => {
 						if(err) res.status(400).json({message : "Error occured in finding user!"});
