@@ -122,7 +122,8 @@ router.post('/booking', (req, res) => {
 
 
 router.post('/:seat_number', (req, res) => {
-	const seat_number = req.params;
+	const { seat_number } = req.params;
+	console.log(seat_number)
 	const payload = req.body;
 	var user = null;
 
