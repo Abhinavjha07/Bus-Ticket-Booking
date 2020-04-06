@@ -86,6 +86,9 @@ router.get('/:seat_number', (req, res) => {
 router.post('/booking', (req, res) => {
 	var username = req.body.username;
 	var seat_number = req.body.seat_number;
+	if(seat_number <= 40 && seat_number >= 1)
+	{
+
 	User.findOne({"username": username}, (err, result)=> {
 		if(err) console.log(err);
 		if(result)
@@ -112,6 +115,11 @@ router.post('/booking', (req, res) => {
 		else
 			return res.status(400).json({message :"User doesn't exist."});
 	})
+	}
+	else
+	{
+		res.status(400).json({message: "Invalid seat number"});
+	}
 })
 
 
