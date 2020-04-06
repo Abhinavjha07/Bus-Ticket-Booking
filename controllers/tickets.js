@@ -6,7 +6,7 @@ const router = express.Router();
 
 const createTicket = async function(seat_number,user) {
 	var date = new Date();
-	is_open = true;
+	var is_open = true;
 	const ticket = new Ticket({
 		"seat_number" : seat_number,
 		"is_open": is_open,
@@ -23,13 +23,16 @@ const createTicket = async function(seat_number,user) {
 
 router.get('/insert', (req, res) => {
 	for(var i = 1;i<=40;i++) {
-		var result = createTicket(i, null);
-		if(result) {
+		var response = createTicket(i, null);
+		if(response) {
 			console.log("Ticket inserted!!");
 		}
+		else
+			res.status(400).json({message : "Seat number repeated!!"})
+
 	}
 
-	res.status(400).json({message : "Tickets inserted!!"});
+	res.status(200).json({message : "Tickets inserted!!"});
 })
 
 
@@ -59,7 +62,7 @@ router.get('/open', (req, res) => {
 	})
 });
 
-router.get('/status/:seat_number', (req, res) => {
+router.get('/:seat_number', (req, res) => {
 	const { seat_number }  = req.params
 	console.log(seat_number);
 	Ticket.findOne({"seat_number" : seat_number}, (err, ticket) => {
