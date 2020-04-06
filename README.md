@@ -107,9 +107,9 @@ Hosted on AWS, url :
 
 **Packages used**:
 **Packages used**:
-* "bcrypt": "^3.0.7" -> used for hashing and storing comparing passwords
-* "body-parser": "^1.19.0" -> middleware used for parsing the req.body as a json
+* "bcrypt": "^3.0.7" -> used for hashing and comparing passwords
+* "body-parser": "^1.19.0" -> used for parsing the req.body as a json
 * "express": "^4.17.1" -> for API building blocks
-* "joi": "^14.3.1" -> Input validation middleware
+* "joi": "^14.3.1" -> Input validation
 * "mongoose": "^5.8.1" -> MongoDB ORM
 * "mongoose-unique-validator": "^2.0.3" -> used for maintaining unique phone number and email in user documents in the user collection.
