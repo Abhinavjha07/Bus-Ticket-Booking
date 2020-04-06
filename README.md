@@ -1,6 +1,6 @@
 # Bus-Ticket-Booking(Hyperverge Assignment)
 
-Hosted on AWS, url : 
+Hosted on AWS, url : http://18.224.229.122:3000/
 
 **APIs**
 
