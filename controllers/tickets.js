@@ -206,7 +206,6 @@ router.post('/admin/reset', (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
 
-	console.log(process.env.USERNAME);
 	if(username == process.env.USERNAME)
 	{
 		if(bcrypt.compare(password, process.env.PASSWORD)) {
