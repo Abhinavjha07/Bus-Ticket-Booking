@@ -125,7 +125,7 @@ router.post('/:seat_number', (req, res) => {
 	if("username" in payload) {
 		user = payload.username;
 	}
-	if(payload.is_open == true)
+	if(payload.is_open === true)
 	{
 		Ticket.findOne({ "seat_number": seat_number}, (err, ticket) => {
 			if(err) res.status(404).json({ message: err});
