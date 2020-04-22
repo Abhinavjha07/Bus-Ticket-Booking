@@ -61,7 +61,7 @@ Hosted on AWS, url : http://52.14.32.109:80/
 * *Updates the ticket status.*
 * payload: 
 * {
-	"is_open" : true/false, "username": (if is_open == true, then required, else not)
+	"is_open" : true/false, "username": (if is_open == false, then required, else not)
 }
 * Updates the status of the seat(seat number provided in the url), if is_open = true, then opens the ticket(mark as unbooked), else changes is_open to false and adds user id to that seat.
 * returns:
