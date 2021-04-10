@@ -1,6 +1,4 @@
-# Bus-Ticket-Booking(Hyperverge Assignment)
-
-Hosted on AWS, url : http://18.218.72.198:80/
+# Bus-Ticket-Booking
 
 **APIs**
 
@@ -105,7 +103,6 @@ Hosted on AWS, url : http://18.218.72.198:80/
 
 * user can be accessed using ticket.user._id
 
-**Packages used**:
 **Packages used**:
 * "bcrypt": "^3.0.7" -> used for hashing and comparing passwords
 * "body-parser": "^1.19.0" -> used for parsing the req.body as a json
